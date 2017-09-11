@@ -31,6 +31,9 @@
 </head>
 <body>
 	<form runat="server">
+	<asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="false" />
+	<asp:ObjectDataSource ID="odsMessages" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SelectMessages" TypeName="DXBootstrap.Code.SampleData" />
+	<asp:ObjectDataSource ID="odsAlerts" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SelectAlerts" TypeName="DXBootstrap.Code.SampleData" />
 	<div id="wrapper">
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -42,89 +45,51 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">DX Bootstrap Admin Panel</a>
+				<a class="navbar-brand" href="/">DX Bootstrap Admin Panel</a>
 			</div>
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-					<ul class="dropdown-menu message-dropdown">
-						<li class="message-preview">
-							<a href="#">
-								<div class="media">
-									<span class="pull-left">
-										<img class="media-object" src="http://placehold.it/50x50" alt="">
-									</span>
-									<div class="media-body">
-										<h5 class="media-heading"><strong>John Smith</strong>
-										</h5>
-										<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-										<p>Lorem ipsum dolor sit amet, consectetur...</p>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>					
+					<asp:Repeater runat="server" ID="rptMessages" DataSourceID="odsMessages">
+						<HeaderTemplate>
+							<ul class="dropdown-menu message-dropdown">
+						</HeaderTemplate>
+						<ItemTemplate>
+							<li class="message-preview">
+								<a href="#">
+									<div class="media">
+										<span class="pull-left"><img class="media-object" src='<%# Eval("ImageUrl") %>' alt=""></span>
+										&nbsp;<div class="media-body">
+											<h5 class="media-heading"><strong><%# Eval("Sender") %></strong></h5>
+											<p class="small text-muted"><i class="fa fa-clock-o"></i> <%# String.Format("{0: dd MMM yyyy hh:nn}", Eval("Date")) %></p>
+											<p><%# Eval("Message") %></p>
+										</div>
 									</div>
-								</div>
-							</a>
-						</li>
-						<li class="message-preview">
-							<a href="#">
-								<div class="media">
-									<span class="pull-left">
-										<img class="media-object" src="http://placehold.it/50x50" alt="">
-									</span>
-									<div class="media-body">
-										<h5 class="media-heading"><strong>John Smith</strong>
-										</h5>
-										<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-										<p>Lorem ipsum dolor sit amet, consectetur...</p>
-									</div>
-								</div>
-							</a>
-						</li>
-						<li class="message-preview">
-							<a href="#">
-								<div class="media">
-									<span class="pull-left">
-										<img class="media-object" src="http://placehold.it/50x50" alt="">
-									</span>
-									<div class="media-body">
-										<h5 class="media-heading"><strong>John Smith</strong>
-										</h5>
-										<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-										<p>Lorem ipsum dolor sit amet, consectetur...</p>
-									</div>
-								</div>
-							</a>
-						</li>
-						<li class="message-footer">
-							<a href="#">Read All New Messages</a>
-						</li>
-					</ul>
+								</a>
+							</li>
+						</ItemTemplate>
+						<FooterTemplate>
+								<li class="message-footer"><a href="#">Read All New Messages</a></li>
+							</ul>
+						</FooterTemplate>
+					</asp:Repeater>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-					<ul class="dropdown-menu alert-dropdown">
-						<li>
-							<a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-						</li>
-						<li>
-							<a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-						</li>
-						<li>
-							<a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-						</li>
-						<li>
-							<a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-						</li>
-						<li>
-							<a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-						</li>
-						<li>
-							<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a href="#">View All</a>
-						</li>
-					</ul>
+					<asp:Repeater runat="server" ID="rptAlerts" DataSourceID="odsAlerts">
+						<HeaderTemplate>
+							<ul class="dropdown-menu alert-dropdown">
+						</HeaderTemplate>
+						<ItemTemplate>
+							<li><a href="#"><%# Eval("AlertText") %> <span class='<%# String.Format("label label-{0}", Eval("BadgeType")) %>'><%# Eval("BadgeText") %></span></a></li>
+						</ItemTemplate>
+						<FooterTemplate>
+								<li class="divider"></li>
+								<li class="message-footer"><a href="#">View All</a></li>
+							</ul>
+						</FooterTemplate>
+					</asp:Repeater>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
@@ -145,8 +110,7 @@
 					</ul>
 				</li>
 			</ul>
-			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-			<asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="false" />
+			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->			
 			<dx:BootstrapMenu ID="dxMenu" runat="server" ClientIDMode="Static" 
 				Orientation="Horizontal" DataSourceID="SiteMapDataSource1" 
 				IconCssClassField="icon" NameField="name" 
@@ -179,9 +143,9 @@
 	<script src="js/bootstrap.min.js"></script>
 
 	<!-- Morris Charts JavaScript -->
-	<script src="js/plugins/morris/raphael.min.js"></script>
+<%--	<script src="js/plugins/morris/raphael.min.js"></script>
 	<script src="js/plugins/morris/morris.min.js"></script>
-	<script src="js/plugins/morris/morris-data.js"></script>
+	<script src="js/plugins/morris/morris-data.js"></script>--%>
 	</form>
 </body>
 </html>

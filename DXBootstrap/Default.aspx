@@ -115,7 +115,17 @@
 					<h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Area Chart</h3>
 				</div>
 				<div class="panel-body">
-					<div id="morris-area-chart"></div>
+					<dx:BootstrapChart ID="BootstrapChart1" runat="server" DataSourceUrl="~/js/ChartArea.json" 
+						EncodeHtml="True" UseAggregation="True">
+						<SeriesCollection>
+							<dx:BootstrapChartSplineAreaSeries ArgumentField="period" Name="iPhone" ValueField="iphone">
+							</dx:BootstrapChartSplineAreaSeries>
+							<dx:BootstrapChartSplineAreaSeries ArgumentField="period" Name="iPad" ValueField="ipad">
+							</dx:BootstrapChartSplineAreaSeries>
+							<dx:BootstrapChartSplineAreaSeries ArgumentField="period" Name="iPod Touch" ValueField="itouch">
+							</dx:BootstrapChartSplineAreaSeries>
+						</SeriesCollection>
+					</dx:BootstrapChart>
 				</div>
 			</div>
 		</div>
@@ -129,7 +139,14 @@
 					<h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>Donut Chart</h3>
 				</div>
 				<div class="panel-body">
-					<div id="morris-donut-chart"></div>
+					<dx:BootstrapPieChart ID="BootstrapPieChart1" runat="server" DataSourceUrl="~/js/ChartDonut.json" EncodeHtml="True" Type="Doughnut">
+						
+						<SeriesCollection>
+							<dx:BootstrapPieChartSeries ArgumentField="label" ValueField="value">								
+							</dx:BootstrapPieChartSeries>
+						</SeriesCollection>
+
+					</dx:BootstrapPieChart>
 					<div class="text-right">
 						<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
@@ -188,68 +205,30 @@
 					<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>Transactions Panel</h3>
 				</div>
 				<div class="panel-body">
-					<div class="table-responsive">
-						<table class="table table-bordered table-hover table-striped">
-							<thead>
-								<tr>
-									<th>Order #</th>
-									<th>Order Date</th>
-									<th>Order Time</th>
-									<th>Amount (USD)</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>3326</td>
-									<td>10/21/2013</td>
-									<td>3:29 PM</td>
-									<td>$321.33</td>
-								</tr>
-								<tr>
-									<td>3325</td>
-									<td>10/21/2013</td>
-									<td>3:20 PM</td>
-									<td>$234.34</td>
-								</tr>
-								<tr>
-									<td>3324</td>
-									<td>10/21/2013</td>
-									<td>3:03 PM</td>
-									<td>$724.17</td>
-								</tr>
-								<tr>
-									<td>3323</td>
-									<td>10/21/2013</td>
-									<td>3:00 PM</td>
-									<td>$23.71</td>
-								</tr>
-								<tr>
-									<td>3322</td>
-									<td>10/21/2013</td>
-									<td>2:49 PM</td>
-									<td>$8345.23</td>
-								</tr>
-								<tr>
-									<td>3321</td>
-									<td>10/21/2013</td>
-									<td>2:23 PM</td>
-									<td>$245.12</td>
-								</tr>
-								<tr>
-									<td>3320</td>
-									<td>10/21/2013</td>
-									<td>2:15 PM</td>
-									<td>$5663.54</td>
-								</tr>
-								<tr>
-									<td>3319</td>
-									<td>10/21/2013</td>
-									<td>2:13 PM</td>
-									<td>$943.45</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<dx:BootstrapGridView ID="gv" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" KeyFieldName="InvoiceId">
+						<CssClasses Control="table table-bordered table-hover table-striped" />
+						<Columns>
+							<dx:BootstrapGridViewTextColumn FieldName="InvoiceId" ReadOnly="True" VisibleIndex="0">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewDateColumn FieldName="InvoiceDate" VisibleIndex="1">
+							</dx:BootstrapGridViewDateColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BillingAddress" VisibleIndex="2" Visible="False">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BillingCity" VisibleIndex="3" Visible="False">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BillingState" VisibleIndex="4" Visible="False">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BillingCountry" VisibleIndex="5" Visible="False">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BillingPostalCode" VisibleIndex="6" Visible="False">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewSpinEditColumn FieldName="Total" VisibleIndex="7">
+								<PropertiesSpinEdit DisplayFormatString="g">
+								</PropertiesSpinEdit>
+							</dx:BootstrapGridViewSpinEditColumn>
+						</Columns>
+					</dx:BootstrapGridView>
+					<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ChinookConnection %>" SelectCommand="SELECT * FROM [Invoice]"></asp:SqlDataSource>
 					<div class="text-right">
 						<a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
