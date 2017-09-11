@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode url="#" title="Home"  description="">
+		<siteMapNode title="Dashboard" name="Dashboard" url="/" icon="fa fa-fw fa-dashboard"></siteMapNode>
+		<siteMapNode title="Charts" name="Charts" url="/Chart.aspx" icon="fa fa-fw fa-area-chart"></siteMapNode>
+		<siteMapNode title="Grids" name="Grids" url="/Table.aspx" icon="fa fa-fw fa-table"></siteMapNode>
+		<siteMapNode title="Forms" name="Forms" url="/Forms.aspx" icon="fa fa-fw fa-file"></siteMapNode>
+		<siteMapNode title="SubMenu" name="SubMenu" icon="fa fa-fw fa-arrows-v">
+			<siteMapNode title="Sub Item 1" name="SubItem1" />
+			<siteMapNode title="Sub Item 2" name="SubItem2" />
+		</siteMapNode>
+		<siteMapNode title="More" name="More" url="/More.aspx" icon="fa fa-fw fa-wrench"></siteMapNode>
+	</siteMapNode>
+</siteMap>
