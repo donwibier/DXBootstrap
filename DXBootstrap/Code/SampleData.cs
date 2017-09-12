@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -28,6 +29,31 @@ namespace DXBootstrap.Code
 			new AlertItem{ AlertText="Alert 5", BadgeType="warning", BadgeText="Badge 5" },
 			new AlertItem{ AlertText="Alert 6", BadgeType="danger", BadgeText="Badge 6" }
 		};
+
+		static readonly AlertItem[] tasks = new AlertItem[]
+		{
+			new AlertItem{ AlertText="Calendar updated", BadgeType="calendar", BadgeText="just now" },
+			new AlertItem{ AlertText="Commented on a post", BadgeType="comment", BadgeText="4 minutes ago" },
+			new AlertItem{ AlertText="Order 392 shipped", BadgeType="truck", BadgeText="23 minutes ago" },
+			new AlertItem{ AlertText="Invoice 653 has been paid", BadgeType="money", BadgeText="46 minutes ago" },
+			new AlertItem{ AlertText="A new user has been added", BadgeType="user", BadgeText="1 hour ago" },
+			new AlertItem{ AlertText="Completed task: \"pick up dry cleaning\"", BadgeType="check", BadgeText="2 hours ago" },
+			new AlertItem{ AlertText="Saved the world", BadgeType="globe", BadgeText="yesterday" },
+			new AlertItem{ AlertText="Completed task: \"fix error on sales page\"", BadgeType="check", BadgeText="two days ago" }
+
+		};
+		static CultureInfo f = new CultureInfo("en-US");
+		static readonly Order[] orders = new Order[]
+		{
+			new Order{OrderNo=3326, OrderDateTime = DateTime.Parse("10/21/2013 3:29 PM", f), OrderAmount = 321.33m },
+			new Order{OrderNo=3325, OrderDateTime = DateTime.Parse("10/21/2013 3:20 PM", f), OrderAmount = 234.34m },
+			new Order{OrderNo=3324, OrderDateTime = DateTime.Parse("10/21/2013 3:03 PM", f), OrderAmount=724.17m },
+			new Order{OrderNo=3323, OrderDateTime = DateTime.Parse("10/21/2013 3:00 PM", f), OrderAmount=23.71m },
+			new Order{OrderNo=3322, OrderDateTime = DateTime.Parse("10/21/2013 2:49 PM", f), OrderAmount=8345.23m },
+			new Order{OrderNo=3321, OrderDateTime = DateTime.Parse("10/21/2013 2:23 PM", f), OrderAmount=245.12m },
+			new Order{OrderNo=3320, OrderDateTime = DateTime.Parse("10/21/2013 2:15 PM", f), OrderAmount=5663.54m },
+			new Order{OrderNo=3319, OrderDateTime = DateTime.Parse("10/21/2013 2:13 PM", f), OrderAmount=943.45m },
+		};
 		[DataObjectMethod(DataObjectMethodType.Select, false)]
 		public EmailMessages[] SelectMessages()
 		{
@@ -38,12 +64,24 @@ namespace DXBootstrap.Code
 		{
 			return alerts;
 		}
+		[DataObjectMethod(DataObjectMethodType.Select, false)]
+		public AlertItem[] SelectTasks()
+		{
+			return tasks;
+		}
 
+		[DataObjectMethod(DataObjectMethodType.Select, false)]
+		public Order[] SelectOrders()
+		{
+			return orders;
+		}
 
 	}
 
 	public class EmailMessages
 	{
+		private Guid _Id = new Guid();
+		public Guid Id { get { return _Id; } }
 		public string Sender { get; set; }
 		public DateTime Date { get; set; }
 		public string Message { get; set; }
@@ -52,72 +90,21 @@ namespace DXBootstrap.Code
 
 	public class AlertItem
 	{
+		private Guid _Id = new Guid();
+		public Guid Id { get { return _Id; } }
 		public string AlertText { get; set; }
 		public string BadgeType { get; set; }
 		public string BadgeText { get; set; }
 	}
-	/*
-	Morris.Area({
-        
-        data: [{
 
-			period: '2010 Q1',
-			iphone: 2666,
-			ipad: null,
-			itouch: 2647
+	public class Order
+	{
+		private Guid _Id = new Guid();
+		public Guid Id { get { return _Id; } }
+		public int OrderNo { get; set; }
+		public DateTime OrderDateTime { get; set; }
+		
+		public Decimal OrderAmount { get; set; }
+	}
 
-		}, {
-            period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
-        }, {
-            period: '2010 Q3',
-            iphone: 4912,
-            ipad: 1969,
-            itouch: 2501
-        }, {
-            period: '2010 Q4',
-            iphone: 3767,
-            ipad: 3597,
-            itouch: 5689
-        }, {
-            period: '2011 Q1',
-            iphone: 6810,
-            ipad: 1914,
-            itouch: 2293
-        }, {
-            period: '2011 Q2',
-            iphone: 5670,
-            ipad: 4293,
-            itouch: 1881
-        }, {
-            period: '2011 Q3',
-            iphone: 4820,
-            ipad: 3795,
-            itouch: 1588
-        }, {
-            period: '2011 Q4',
-            iphone: 15073,
-            ipad: 5967,
-            itouch: 5175
-        }, {
-            period: '2012 Q1',
-            iphone: 10687,
-            ipad: 4460,
-            itouch: 2028
-        }, {
-            period: '2012 Q2',
-            iphone: 8432,
-            ipad: 5713,
-            itouch: 1791
-        }],
-        xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
-    });
-	*/
 }

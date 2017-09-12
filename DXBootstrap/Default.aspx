@@ -1,6 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.master" CodeBehind="Default.aspx.cs" Inherits="DXBootstrap._Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" runat="server">
+	<asp:ObjectDataSource ID="odsTasks" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SelectTasks" TypeName="DXBootstrap.Code.SampleData"></asp:ObjectDataSource>
+	<asp:ObjectDataSource ID="odsOrders" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SelectOrders" TypeName="DXBootstrap.Code.SampleData"></asp:ObjectDataSource>
 	<!-- Page Heading -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -159,40 +161,30 @@
 					<h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>Tasks Panel</h3>
 				</div>
 				<div class="panel-body">
-					<div class="list-group">
-						<a href="#" class="list-group-item">
-							<span class="badge">just now</span>
-							<i class="fa fa-fw fa-calendar"></i>Calendar updated
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">4 minutes ago</span>
-							<i class="fa fa-fw fa-comment"></i>Commented on a post
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">23 minutes ago</span>
-							<i class="fa fa-fw fa-truck"></i>Order 392 shipped
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">46 minutes ago</span>
-							<i class="fa fa-fw fa-money"></i>Invoice 653 has been paid
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">1 hour ago</span>
-							<i class="fa fa-fw fa-user"></i>A new user has been added
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">2 hours ago</span>
-							<i class="fa fa-fw fa-check"></i>Completed task: "pick up dry cleaning"
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">yesterday</span>
-							<i class="fa fa-fw fa-globe"></i>Saved the world
-                                    </a>
-						<a href="#" class="list-group-item">
-							<span class="badge">two days ago</span>
-							<i class="fa fa-fw fa-check"></i>Completed task: "fix error on sales page"
-                                    </a>
-					</div>
+					<dx:BootstrapGridView ID="BootstrapGridView2" runat="server" AutoGenerateColumns="False" DataSourceID="odsTasks" KeyFieldName="Id">
+						<Settings GridLines="Horizontal" ShowColumnHeaders="False" />
+						<CssClasses Control="table table-bordered table-hover table-striped" />
+						<SettingsPager Visible="False">
+						</SettingsPager>
+						<Columns>
+							<dx:BootstrapGridViewTextColumn FieldName="Id" ReadOnly="True" Visible="False" VisibleIndex="0">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="AlertText" VisibleIndex="2">
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BadgeType" VisibleIndex="1">
+								<DataItemTemplate>
+									<%# String.Format("<i class=\"fa fa-fw fa-{0}\"></i>", DataBinder.Eval(Container.DataItem,"BadgeType"))%>
+								</DataItemTemplate>
+							</dx:BootstrapGridViewTextColumn>
+							<dx:BootstrapGridViewTextColumn FieldName="BadgeText" VisibleIndex="3" HorizontalAlign="Right">
+								<DataItemTemplate>
+									<span class="badge"><%# DataBinder.Eval(Container.DataItem,"BadgeText") %></span>
+								</DataItemTemplate>
+
+							</dx:BootstrapGridViewTextColumn>
+						</Columns>
+
+					</dx:BootstrapGridView>
 					<div class="text-right">
 						<a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
@@ -205,30 +197,20 @@
 					<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>Transactions Panel</h3>
 				</div>
 				<div class="panel-body">
-					<dx:BootstrapGridView ID="gv" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" KeyFieldName="InvoiceId">
+					<dx:BootstrapGridView ID="gv" runat="server" AutoGenerateColumns="False" DataSourceID="odsOrders" KeyFieldName="Id">
 						<CssClasses Control="table table-bordered table-hover table-striped" />
 						<Columns>
-							<dx:BootstrapGridViewTextColumn FieldName="InvoiceId" ReadOnly="True" VisibleIndex="0">
+							<dx:BootstrapGridViewTextColumn Caption="Order #" FieldName="OrderNo" ReadOnly="True" VisibleIndex="0">
 							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewDateColumn FieldName="InvoiceDate" VisibleIndex="1">
-							</dx:BootstrapGridViewDateColumn>
-							<dx:BootstrapGridViewTextColumn FieldName="BillingAddress" VisibleIndex="2" Visible="False">
+							<dx:BootstrapGridViewTextColumn Caption="Date" FieldName="OrderDateTime" VisibleIndex="1" PropertiesTextEdit-DisplayFormatString="{0:d}">
 							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewTextColumn FieldName="BillingCity" VisibleIndex="3" Visible="False">
+							<dx:BootstrapGridViewTextColumn Caption="Time" FieldName="OrderDateTime" VisibleIndex="2" PropertiesTextEdit-DisplayFormatString="{0:t}" >
 							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewTextColumn FieldName="BillingState" VisibleIndex="4" Visible="False">
-							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewTextColumn FieldName="BillingCountry" VisibleIndex="5" Visible="False">
-							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewTextColumn FieldName="BillingPostalCode" VisibleIndex="6" Visible="False">
-							</dx:BootstrapGridViewTextColumn>
-							<dx:BootstrapGridViewSpinEditColumn FieldName="Total" VisibleIndex="7">
-								<PropertiesSpinEdit DisplayFormatString="g">
-								</PropertiesSpinEdit>
-							</dx:BootstrapGridViewSpinEditColumn>
+							<dx:BootstrapGridViewTextColumn Caption="Amount" FieldName="OrderAmount" VisibleIndex="3" PropertiesTextEdit-DisplayFormatString="{0:c}">
+							</dx:BootstrapGridViewTextColumn>							
 						</Columns>
 					</dx:BootstrapGridView>
-					<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ChinookConnection %>" SelectCommand="SELECT * FROM [Invoice]"></asp:SqlDataSource>
+					
 					<div class="text-right">
 						<a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
